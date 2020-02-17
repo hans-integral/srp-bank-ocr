@@ -93,20 +93,20 @@ public class OCR {
 
             if (accountNumber.contains("?")) {
                 return accountNumber + " ILL";
-            } else if (!isValid(accountNumber)) {
+            }
+            boolean isValid = false;
+            if (accountNumber.length() == 9) {
+                var digits = accountNumber.split("");
+                var sum = 0;
+                for (var i = 0; i < 9; i++) {
+                    sum += (9 - i) * Integer.parseInt(digits[i]);
+                }
+                isValid = sum % 11 == 0;
+            }
+            if (!isValid) {
                 return accountNumber + " ERR";
             }
             return accountNumber;
         }).collect(Collectors.joining("\n"));
-    }
-
-    public static boolean isValid(String text) {
-        if (text.length() != 9) return false;
-        var digits = text.split("");
-        var sum = 0;
-        for (var i = 0; i < 9; i++) {
-            sum += (9 - i) * Integer.parseInt(digits[i]);
-        }
-        return sum % 11 == 0;
     }
 }

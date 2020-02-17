@@ -88,12 +88,22 @@ class OCRTests {
 
     @Test
     void canValidateAnAccountNumber() {
-        assertThat(OCR.isValid("345882865")).isEqualTo(true);
+        assertThat(OCR.convert(
+            " _     _  _  _  _  _  _  _ \n" +
+                 " _||_||_ |_||_| _||_||_ |_ \n" +
+                 " _|  | _||_||_||_ |_||_| _|\n" +
+                 "                             "
+        )).isEqualTo("345882865");
     }
 
     @Test
     void canDetectAnInvalidAccountNumber() {
-        assertThat(OCR.isValid("987654321")).isEqualTo(false);
+        assertThat(OCR.convert(
+            " _  _  _  _  _     _  _    \n" +
+                 "|_||_|  ||_ |_ |_| _| _|  |\n" +
+                 " _||_|  ||_| _|  | _||_   |\n" +
+                 "                             "
+        )).isEqualTo("987654321 ERR");
     }
 
     @Test
